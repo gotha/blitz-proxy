@@ -13,6 +13,7 @@ type StoreType int
 const (
 	StoreTypeFile StoreType = iota
 	StoreTypeDynamodb
+	StoreTypeRedis
 )
 
 type Config struct {
@@ -48,8 +49,11 @@ func NewConfigFromEnv() Config {
 		c.BackendAddr = v
 	}
 	if v := os.Getenv("STORE_TYPE"); v != "" {
-		if v == "DYNAMODB" {
+		switch v {
+		case "DYNAMODB":
 			c.StoreType = StoreTypeDynamodb
+		case "REDIS":
+			c.StoreType = StoreTypeRedis
 		}
 	}
 	if v := os.Getenv("NO_CACHE_LIST"); v != "" {
