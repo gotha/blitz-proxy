@@ -8,6 +8,7 @@ import (
 	"github.com/gotha/blitz-proxy/storage"
 	"github.com/gotha/blitz-proxy/storage/dynamodb"
 	"github.com/gotha/blitz-proxy/storage/file"
+	"github.com/gotha/blitz-proxy/storage/redis"
 )
 
 func getCacheStore(storeType StoreType) storage.IStorage {
@@ -31,6 +32,14 @@ func getCacheStore(storeType StoreType) storage.IStorage {
 			os.Exit(1)
 		}
 		cacheStore = store
+	case StoreTypeRedis:
+		conf, err := redis.NewConfigFromEnv()
+		if err != nil {
+			slog.Error("unable to create redis config", slog.String("err", err.Error()))
+			os.Exit(1)
+		}
+		conn := redis.NewConnection(conf)
+		cacheStore = redis.NewCacheStore(conn)
 	default:
 		slog.Error("unsupported store")
 		os.Exit(1)

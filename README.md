@@ -35,6 +35,17 @@ AWS_DYNAMODB_PROVISIONED_WRITE_CAPACITY=5
 
 If you set AWS_DYNAMODB_PROVISIONED_READ_CAPACITY and AWS_DYNAMODB_PROVISIONED_WRITE_CAPACITY to 0, this will create DynamoDB table with 'per request' billing mode.
 
+### Redis
+
+To use Redis as store:
+
+```
+STORE_TYPE=REDIS
+REDIS_USERNAME=redis
+REDIS_PASSWORD=""
+REDIS_DB=0
+```
+
 ## Usage
 
 ### Get latest cache
